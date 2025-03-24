@@ -7,8 +7,8 @@ export const ListSprints = () => {
 				<h1>Sprints</h1>
 			</div>
 			<div className={styles.containerSprints}>
-				<SprintCard />
-
+			<SprintCard />
+			<SprintCard />
 			</div>
 			<div className={styles.containerButtonAddSprint}>
 				<button className={styles.buttonAddSprint}>Agregar Sprint</button>
