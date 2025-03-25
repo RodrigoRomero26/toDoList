@@ -1,0 +1,40 @@
+.containerPrincipaltaskCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    background-color: #5ebbfa;
+    border-radius: .4rem;
+    padding: 10px;
+    margin: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+}
+.taskCardActions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%;
+    
+}
+.taskCardActionsButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 35%;
+}
+.taskCardActions button{
+    background-color: #fff;
+    color: #4653CA;
+    border: none;
+    padding: .1rem .5rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+.taskCardActions button:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
