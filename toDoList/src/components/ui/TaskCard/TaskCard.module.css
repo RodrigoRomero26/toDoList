@@ -17,14 +17,14 @@
     justify-content: space-around;
     align-items: center;
     width: 30%;
-    
 }
 .taskCardActionsButtons{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    width: 35%;
+    gap: .3rem;
+    width: 60%;
 }
 .taskCardActions button{
     background-color: #fff;
