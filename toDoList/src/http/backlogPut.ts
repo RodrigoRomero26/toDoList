@@ -6,7 +6,7 @@ import { API_URL } from "../Const";
 export const putBacklog = async (task : ITask[]) => {
     try{
         const response = await axios.put<IBacklog>(API_URL, {
-            task: task
+            tareas: task
         });
         return response.data;
     } catch (error) {

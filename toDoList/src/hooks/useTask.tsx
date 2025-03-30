@@ -6,23 +6,26 @@ import {
 	deleteTaskController,
 } from "../data/backlogController";
 import { ITask } from "../types/ITask";
+import { useShallow } from "zustand/shallow";
 
 export const useTask = () => {
+	
 	const {
 		tasks,
 		setArrayTasks,
 		addTask,
 		updateTask,
-		deleteTask,
-	} = taskStore((state) => ({
-		tasks: state.tasks,
-		setArrayTasks: state.setArrayTasks,
-		activeTask: state.activeTask,
-		setActiveTask: state.setActiveTask,
-		addTask: state.addTask,
-		updateTask: state.updateTask,
-		deleteTask: state.deleteTask,
-	}));
+		deleteTask
+	} = taskStore(
+		useShallow((state) => ({
+			tasks: state.tasks,
+			setArrayTasks: state.setArrayTasks,
+			addTask: state.addTask,
+			updateTask: state.updateTask,
+			deleteTask: state.deleteTask,
+		})
+		)
+	)
 
 	const getTasks = async () => {
 		const data = await getTasksController();
@@ -36,13 +39,15 @@ export const useTask = () => {
 		try {
 			await createTaskController(newTask);
 		} catch (error) {
-			deleteTask(newTask.id);
+			deleteTask(newTask.id!);
 			console.error("Error en addNewTask:", error);
 		}
 	};
 
 	const updateExistingTask = async (updatedTask: ITask) => {
-		const previousTask = tasks.find((task) => task.id === updatedTask.id);
+		
+		const previousTask = tasks.find((el) => el.id === updatedTask.id);
+		
 		if (previousTask) {
 			updateTask(updatedTask);
 			try {

@@ -3,12 +3,13 @@ import { ITask } from "../types/ITask";
 import { API_URL } from "../Const";
 import { putBacklog } from "../http/backlogPut";
 
-export const getTasksController = async (): Promise<ITask[] | undefined> => {
+export const getTasksController = async (): Promise<ITask[]> => {
 	try {
-		const response = await axios.get<{ tasks: ITask[] }>(API_URL);
-		return response.data.tasks;
+		const response = await axios.get<{ tareas: ITask[] }>(API_URL);
+		return response.data.tareas;
 	} catch (error) {
 		console.error("Error en getTasksController:", error);
+		return [];
 	}
 };
 
