@@ -1,4 +1,4 @@
-import { ITasks } from "./ITasks";
+import { ITasks } from "./ITask";
 
 export interface ISprint {
     "id": string,

@@ -9,6 +9,11 @@ export const ListSprints = () => {
 			<div className={styles.containerSprints}>
 			<SprintCard />
 			<SprintCard />
+			<SprintCard />
+			<SprintCard />
+			<SprintCard />
+			<SprintCard />
+			<SprintCard />
 			</div>
 			<div className={styles.containerButtonAddSprint}>
 				<button className={styles.buttonAddSprint}>Agregar Sprint</button>
