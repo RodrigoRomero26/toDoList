@@ -24,11 +24,14 @@
 	
 }
 
-.containerDataViewModalTaskDescripcion{
-	max-height: 15vh;
-	overflow-y: auto;
-	width: 95%;
+.containerDataViewModalTaskDescripcion {
+    max-height: 15vh;
+    overflow-y: auto;
+    width: 95%;
+    word-wrap: break-word;
+    white-space: normal;
 }
+
 
 .containerViewModalTask h2 {
     color: #4653ca;

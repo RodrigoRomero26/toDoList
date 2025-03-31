@@ -28,10 +28,8 @@ export const ModalViewTask: FC<ModalViewTaskProps> = ({
 					<div className= {styles.containerDataViewModalTaskDescripcion}>
 					<p>{activeTask?.descripcion}</p>
 					</div>
-					
 						<p>Fecha limite: {activeTask?.fechaLimite}</p>
 						<p>Estado: {activeTask?.estado}</p>
-					
 				</div>
 				<div>
 					<button onClick={handleClose} className={styles.buttonCloseModal}>
