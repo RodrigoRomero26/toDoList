@@ -13,7 +13,7 @@
 .containerModalTask {
 	background-color: #dfdede;
 	width: 30%;
-	height: 50%;
+	height: 60%;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -21,6 +21,8 @@
 	justify-content: center;
 	padding: 1rem;
 	border-radius: 0.4rem;
+	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+		0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 .containerModalTask h2 {

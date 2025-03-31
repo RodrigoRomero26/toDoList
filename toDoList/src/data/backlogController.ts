@@ -2,6 +2,7 @@ import axios from "axios";
 import { ITask } from "../types/ITask";
 import { API_URL } from "../Const";
 import { putBacklog } from "../http/backlogPut";
+import Swal from "sweetalert2";
 
 export const getTasksController = async (): Promise<ITask[]> => {
 	try {
@@ -46,8 +47,8 @@ export const deleteTaskController = async (idDeletedTask: string) => {
 	try {
 		const tasksDB = await getTasksController();
 		if (tasksDB) {
-			const result = tasksDB.filter((task) => task.id !== idDeletedTask);
-			await putBacklog(result);
+			const updatedTasks = tasksDB.filter((task) => task.id !== idDeletedTask);
+			await putBacklog(updatedTasks);
 		}
 	} catch (error) {
 		console.error("Error en deleteTaskController:", error);

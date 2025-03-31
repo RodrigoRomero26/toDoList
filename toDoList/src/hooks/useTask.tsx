@@ -7,25 +7,18 @@ import {
 } from "../data/backlogController";
 import { ITask } from "../types/ITask";
 import { useShallow } from "zustand/shallow";
+import Swal from "sweetalert2";
 
 export const useTask = () => {
-	
-	const {
-		tasks,
-		setArrayTasks,
-		addTask,
-		updateTask,
-		deleteTask
-	} = taskStore(
+	const { tasks, setArrayTasks, addTask, updateTask, deleteTask } = taskStore(
 		useShallow((state) => ({
 			tasks: state.tasks,
 			setArrayTasks: state.setArrayTasks,
 			addTask: state.addTask,
 			updateTask: state.updateTask,
 			deleteTask: state.deleteTask,
-		})
-		)
-	)
+		}))
+	);
 
 	const getTasks = async () => {
 		const data = await getTasksController();
@@ -45,9 +38,8 @@ export const useTask = () => {
 	};
 
 	const updateExistingTask = async (updatedTask: ITask) => {
-		
 		const previousTask = tasks.find((el) => el.id === updatedTask.id);
-		
+
 		if (previousTask) {
 			updateTask(updatedTask);
 			try {
@@ -61,15 +53,33 @@ export const useTask = () => {
 
 	const deleteExistingTask = async (idDeletedTask: string) => {
 		const previousTask = tasks.find((task) => task.id === idDeletedTask);
-		if (previousTask) {
-			deleteTask(idDeletedTask);
-			try {
-				await deleteTaskController(idDeletedTask);
-			} catch (error) {
-				addTask(previousTask);
-				console.error("Error en deleteExistingTask:", error);
+		Swal.fire({
+			title: "Estas seguro?",
+			text: "No podra recuperarse!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Eliminar!",
+			cancelButtonText: "Cancelar",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				if (previousTask) {
+					deleteTask(idDeletedTask);
+					try {
+						await deleteTaskController(idDeletedTask);
+					} catch (error) {
+						addTask(previousTask);
+						console.error("Error en deleteExistingTask:", error);
+					}
+				}
+				Swal.fire({
+					title: "Eliminado!",
+					text: "Tu tarea fue eliminada.",
+					icon: "success",
+				});
 			}
-		}
+		});
 	};
 
 	return {
