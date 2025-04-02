@@ -1,5 +1,32 @@
 {
   "backlog": {
-    "tareas": []
+    "tareas": [
+      {
+        "titulo": "Tarea 1 ",
+        "descripcion": "Tarea 1",
+        "estado": "Creado",
+        "fechaLimite": "2025-04-09",
+        "id": "4e3949b4-da3f-4531-a40d-b3799ba0047d"
+      }
+    ]
+  },
+  "sprintList": {
+    "sprints": [
+      {
+        "id": "b0e3f34b-68c6-49eb-b059-ab251ed81629",
+        "fechaInicio": "2025-03-04",
+        "fechaCierre": "2025-03-11",
+        "nombre": "Sprint 122",
+        "tareas": [
+          {
+            "id": "50699dec-3d1a-45ff-a94d-82d416eac053",
+            "titulo": "Tarea 2",
+            "descripcion": "Estamos aca",
+            "estado": "pendiente",
+            "fechaLimite": "2025-03-06"
+          }
+        ]
+      }
+    ]
   }
 }

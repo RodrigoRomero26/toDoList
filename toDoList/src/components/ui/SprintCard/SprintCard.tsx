@@ -1,20 +1,45 @@
+
+import { FC } from "react";
+import { ISprint } from "../../../types/ISprint";
 import styles from "./SprintCard.module.css";
-export const SprintCard = () => {
+import { useSprint } from "../../../hooks/useSprint";
+
+type SprintCardProps = {
+	sprint: ISprint;
+	handleOpenModalEdit: (sprint: ISprint) => void;
+}
+
+export const SprintCard: FC<SprintCardProps> = ({sprint, handleOpenModalEdit}) => {
+
+	const {deleteExistingSprint} = useSprint()
+
+	const handleDeleteSprint = () => {
+		deleteExistingSprint(sprint.id!);
+	}
+	
+	const handleEditSprint = () => {
+		handleOpenModalEdit(sprint);
+	}
+
+	const handleViewSprint = () => {
+		
+	}
+
 	return (
 		<div className={styles.sprintCard}>
 			<div className={styles.sprintCardData}>
-				<h2>Sprint 1</h2>
-				<p>Inicio: 01/01/2021</p>
-				<p>Cierre: 15/01/2021</p>
+				<h2>{sprint.nombre}</h2>
+				<p>Fecha Inicio: {sprint.fechaInicio}</p>
+				<p>Fecha cierre: {sprint.fechaCierre}</p>
 			</div>
 			<div className={styles.sprintCardActions}>
-				<button>
+				<button onClick={handleViewSprint}>
 					<span className="material-symbols-outlined">visibility</span>
 				</button>
-				<button>
+				<button onClick={handleEditSprint}>
 					<span className="material-symbols-outlined">edit</span>
 				</button>
-				<button>
+				<button onClick={handleDeleteSprint}>
 					<span className="material-symbols-outlined">delete</span>
 				</button>
 			</div>

@@ -1,5 +1,5 @@
 
-import { ListSprints } from '../ListSprints/ListSprints'
+import { SprintList } from '../SprintList/SprintList'
 import styles from './Aside.module.css'
 export const Aside = () => {
   return (
@@ -8,7 +8,7 @@ export const Aside = () => {
             <button>Backlog</button>
         </div>
         <div className={styles.asideSprints}>
-            <ListSprints />
+            <SprintList />
         </div>
     </div>
   )

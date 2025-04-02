@@ -2,7 +2,6 @@ import axios from "axios";
 import { ITask } from "../types/ITask";
 import { API_URL } from "../Const";
 import { putBacklog } from "../http/backlogPut";
-import Swal from "sweetalert2";
 
 export const getTasksController = async (): Promise<ITask[]> => {
 	try {
@@ -22,7 +21,6 @@ export const createTaskController = async (newTask: ITask) => {
 		} else {
 			await putBacklog([newTask]);
 		}
-
 		return newTask;
 	} catch (error) {
 		console.error("Error en createTaskController:", error);

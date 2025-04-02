@@ -1,9 +1,9 @@
-import { ITasks } from "./ITask";
+import { ITask } from "./ITask";
 
 export interface ISprint {
-    "id": string,
-    "fechaInicio": Date,
-    "fechaCierre": Date,
-    "nombre": string,
-    "tareas": ITasks[]
+    id?: string,
+    fechaInicio: string,
+    fechaCierre: string,
+    nombre: string,
+    tareas: ITask[]
 }
