@@ -7,9 +7,10 @@ type TaskCardProps = {
 	task: ITask;
 	handleOpenModalEdit: (task: ITask) => void;
 	handleOpenView: (task: ITask) => void;
+	handleOpenAddTask: (task: ITask) => void;
 }
 
-export const TaskCard: FC<TaskCardProps> = ({task, handleOpenModalEdit, handleOpenView}) => {
+export const TaskCard: FC<TaskCardProps> = ({task, handleOpenModalEdit, handleOpenView, handleOpenAddTask}) => {
 
 	const {deleteExistingTask } = useTask();
 
@@ -23,6 +24,10 @@ export const TaskCard: FC<TaskCardProps> = ({task, handleOpenModalEdit, handleOp
 
 	const handleViewTask = () => {
 		handleOpenView(task);
+	}
+
+	const handleAddTask = () => {
+		handleOpenAddTask(task);
 	}
 
 	return (
@@ -39,7 +44,7 @@ export const TaskCard: FC<TaskCardProps> = ({task, handleOpenModalEdit, handleOp
 			</div>
 			<div className={styles.taskCardActions}>
 				<div>
-					<button>
+					<button onClick={handleAddTask}>
 						<span className="material-symbols-outlined">add</span>
 					</button>
 				</div>

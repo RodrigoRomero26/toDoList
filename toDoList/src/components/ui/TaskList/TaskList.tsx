@@ -6,6 +6,7 @@ import styles from "./TaskList.module.css";
 import { ITask } from "../../../types/ITask";
 import { ModalTask } from "../ModalTask/ModalTask";
 import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
+import { ModalAddTask } from "../ModalAddTask/ModalAddTask";
 export const TaskList = () => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const { getTasks, tasks } = useTask();
@@ -16,6 +17,7 @@ export const TaskList = () => {
 
 	const [openModalTask, setOpenModalTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
+	const [openAddTask, setOpenAddTask] = useState(false);
 
 	const handleOpenModalEditTask = (task: ITask) => {
 		setActiveTask(task);
@@ -28,10 +30,22 @@ export const TaskList = () => {
 	};
 
 	const handleCloseViewModalTask = () => {
-		setOpenViewModalTask(false);}
+		setOpenViewModalTask(false);
+	}
 
 	const handleCloseModalTask = () => {
 		setOpenModalTask(false);
+		setActiveTask(null);
+	};
+
+	
+	const handleAddTask = (task: ITask) => {
+		setActiveTask(task);
+		setOpenAddTask(true);
+	}
+
+	const handleCloseModalAddTask = () => {
+		setOpenAddTask(false);
 		setActiveTask(null);
 	};
 
@@ -55,6 +69,7 @@ export const TaskList = () => {
 								handleOpenModalEdit={handleOpenModalEditTask}
 								task={el}
 								handleOpenView={handleOpenViewTask}
+								handleOpenAddTask={handleAddTask}
 							/>
 						))
 					) : (
@@ -69,6 +84,9 @@ export const TaskList = () => {
 			)}
 			{openViewModalTask && (
 				<ModalViewTask handleCloseViewModalTask={handleCloseViewModalTask} />
+			)}
+			{openAddTask && (
+				<ModalAddTask handleCloseModalAddTask={handleCloseModalAddTask} />
 			)}
 		</>
 	);

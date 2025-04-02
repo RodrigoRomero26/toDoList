@@ -82,11 +82,25 @@ export const useTask = () => {
 		});
 	};
 
+	const deleteTaskWithoutConfirmation = async (idDeletedTask: string) => {
+		const previousTask = tasks.find((task) => task.id === idDeletedTask);
+		if (previousTask) {
+			deleteTask(idDeletedTask);
+			try {
+				await deleteTaskController(idDeletedTask);
+			} catch (error) {
+				addTask(previousTask);
+				console.error("Error en deleteExistingTask:", error);
+			}
+		}
+	};
+
 	return {
 		tasks,
 		getTasks,
 		addNewTask,
 		updateExistingTask,
 		deleteExistingTask,
+		deleteTaskWithoutConfirmation
 	};
 };

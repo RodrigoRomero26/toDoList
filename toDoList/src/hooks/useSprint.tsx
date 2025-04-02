@@ -10,6 +10,7 @@ import { useShallow } from "zustand/shallow";
 import { ISprint } from "../types/ISprint";
 import Swal from "sweetalert2";
 
+
 export const useSprint = () => {
     const { sprints, setArraySprints, addSprint, updateSprint, deleteSprint } = sprintStore(
         useShallow((state)=>({
@@ -75,6 +76,7 @@ export const useSprint = () => {
             }
         });
     };
+
 
 
     return {
