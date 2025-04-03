@@ -1,7 +1,8 @@
 import axios from "axios";
 import { ITask } from "../types/ITask";
-import { API_URL } from "../Const";
 import { putBacklog } from "../http/backlogPut";
+
+const API_URL = import.meta.env.VITE_BACKLOG_API_URL as string;
 
 export const getTasksController = async (): Promise<ITask[]> => {
 	try {

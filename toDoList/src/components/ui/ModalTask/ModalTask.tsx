@@ -3,6 +3,9 @@ import styles from "./ModalTask.module.css";
 import { taskStore } from "../../../store/taskStore";
 import { useTask } from "../../../hooks/useTask";
 import { ITask } from "../../../types/ITask";
+import { sprintStore } from "../../../store/sprintStore";
+import { ISprint } from "../../../types/ISprint";
+import { useSprint } from "../../../hooks/useSprint";
 
 type ModalTaskProps = {
 	handleCloseModalTask: () => void;
@@ -12,16 +15,13 @@ const initialState: ITask = {
 	titulo: "",
 	descripcion: "",
 	estado: "",
-	fechaLimite: ""
-	
+	fechaLimite: "",
 };
 
 export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 	const activeTask = taskStore((state) => state.activeTask);
 	const setActiveTask = taskStore((state) => state.setActiveTask);
-
 	const { addNewTask, updateExistingTask } = useTask();
-
 	const [formValues, setFormValues] = useState(initialState);
 
 	useEffect(() => {
@@ -98,7 +98,7 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 							<option value="" disabled>
 								Selecciona un estado
 							</option>
-							<option value="Creado">Creado</option>
+							<option value="Pendiente">Pendiente</option>
 							<option value="En proceso">En proceso</option>
 							<option value="Completado">Completado</option>
 						</select>

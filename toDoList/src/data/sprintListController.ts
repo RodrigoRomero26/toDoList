@@ -1,7 +1,7 @@
 import axios from "axios";
-import { API_URL_SPRINT } from "../Const";
 import { ISprint } from "../types/ISprint";
 import { putSprintList } from "../http/sprintListPut";
+const API_URL_SPRINT = import.meta.env.VITE_SPRINT_API_URL as string;
 
 export const getSprintsController = async () : Promise<ISprint[]> => {
     try{

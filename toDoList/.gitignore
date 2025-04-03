@@ -23,3 +23,10 @@ db.json
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos de entorno
+.env
+.env.local
+.env.development
+.env.production
+.env.test
