@@ -4,9 +4,9 @@ import { taskStore } from "../../../store/taskStore";
 import { TaskCard } from "../TaskCard/TaskCard";
 import styles from "./TaskList.module.css";
 import { ITask } from "../../../types/ITask";
-import { ModalTask } from "../ModalTask/ModalTask";
+import { ModalTask } from "../ModalsBacklog/ModalTask/ModalTask";
 import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
-import { ModalAddTask } from "../ModalAddTask/ModalAddTask";
+import { ModalAddTask } from "../ModalsBacklog/ModalAddTask/ModalAddTask";
 export const TaskList = () => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const { getTasks, tasks } = useTask();

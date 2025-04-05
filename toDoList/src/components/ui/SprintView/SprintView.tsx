@@ -4,28 +4,34 @@ import { TaskCardSprint } from "../TaskCardSprint/TaskCardSprint";
 import styles from "./SprintView.module.css";
 import { ITask } from "../../../types/ITask";
 import { taskStore } from "../../../store/taskStore";
-import { ModalTask } from "../ModalTask/ModalTask";
 import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
-import { useSprint } from "../../../hooks/useSprint";
-import { ISprint } from "../../../types/ISprint";
+import { ModalAddTask } from "../ModalsSprintView/ModalAddTask/ModalAddTask";
 
 export const SprintView = () => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const activeSprint = sprintStore((state) => state.activeSprint);
-	const [openModalTask, setOpenModalTask] = useState(false);
+	const [openModalAddTask, setOpenModalAddTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
+	const activeSprintStatic = activeSprint
 
-	const handleOpenModalTask = (task: ITask) => {
+	const handleOpenModalEditTask = (task: ITask) => {
 		setActiveTask(task);
-		setOpenModalTask(true);
+		setOpenModalAddTask(true);
+		
 	};
 
-	const handleOpenViewTask = (task: ITask) => {
+	const handleOpenModalViewTask = (task: ITask) => {
 		setActiveTask(task);
 		setOpenViewModalTask(true);
 	};
 
-	useEffect(() => {}, [activeSprint]);
+	const handleCloseModalAddTask = () => {
+		setOpenModalAddTask(false);
+		setActiveTask(null);
+	}
+
+	useEffect(() => {}
+, [handleCloseModalAddTask]);
 
 	const sprintTasks = activeSprint?.tareas || [];
 
@@ -45,7 +51,7 @@ export const SprintView = () => {
 				<div className={styles.titleAndButtonSprintView}>
 					<div></div>
 					<h2>{activeSprint?.nombre}</h2>
-					<button>Añadir Tarea</button>
+					<button onClick={()=>setOpenModalAddTask(true)}>Añadir Tarea</button>
 				</div>
 				<div className={styles.columnsSprintView}>
 					<div className={`${styles.columnTaskSprintView} ${styles.pending}`}>
@@ -54,8 +60,8 @@ export const SprintView = () => {
 							<TaskCardSprint
 								key={task.id}
 								task={task}
-								handleOpenEdit={handleOpenModalTask}
-								handleOpenView={handleOpenViewTask}
+								handleOpenEdit={handleOpenModalEditTask}
+								handleOpenView={handleOpenModalViewTask}
 							/>
 						))}
 					</div>
@@ -66,8 +72,8 @@ export const SprintView = () => {
 							<TaskCardSprint
 								key={task.id}
 								task={task}
-								handleOpenEdit={handleOpenModalTask}
-								handleOpenView={handleOpenViewTask}
+								handleOpenEdit={handleOpenModalEditTask}
+								handleOpenView={handleOpenModalViewTask}
 							/>
 						))}
 					</div>
@@ -78,19 +84,19 @@ export const SprintView = () => {
 							<TaskCardSprint
 								key={task.id}
 								task={task}
-								handleOpenEdit={handleOpenModalTask}
-								handleOpenView={handleOpenViewTask}
+								handleOpenEdit={handleOpenModalEditTask}
+								handleOpenView={handleOpenModalViewTask}
 							/>
 						))}
 					</div>
 				</div>
 			</div>
-			{openModalTask && (
-				<ModalTask handleCloseModalTask={() => setOpenModalTask(false)} />
+			{openModalAddTask && (
+				<ModalAddTask handleCloseModalAddTask={handleCloseModalAddTask}  />
 			)}
 			{openViewModalTask && (
 				<ModalViewTask
-					handleCloseViewModalTask={() => setOpenViewModalTask(false)}
+					handleCloseViewModalTask={handleCloseModalAddTask}
 				/>
 			)}
 		</>
