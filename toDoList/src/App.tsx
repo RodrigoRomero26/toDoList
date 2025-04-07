@@ -11,9 +11,7 @@ function App() {
 			<Route path="/" element={<Navigate to="/backlog" replace />} />
 			<Route path="/backlog" element={<BacklogScreen />} />
 			<Route
-				path={`/sprint/${activeSprintForRoute?.nombre
-					.replace(/\s+/g, "-")
-					.toLowerCase()}`}
+				path={"/sprint"}
 				element={<SprintScreen />}
 			/>
 		</Routes>

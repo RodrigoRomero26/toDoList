@@ -32,7 +32,7 @@ export const SprintCard: FC<SprintCardProps> = ({
 	const handleViewSprint = () => {
 		setActiveSprintForRoute(sprint);
 		setActiveSprint(sprint);
-		navigate(`/sprint/${sprint.nombre.replace(/\s+/g, "-").toLowerCase()}`);
+		navigate("/sprint" );
 	};
 
 	return (

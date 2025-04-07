@@ -17,7 +17,7 @@ const initialState: ISprint = {
 
 export const ModalSprint: FC<ModalSprintProps> = ({ handleCloseModalSprint}) => {
     const activeSprint = sprintStore((state) => state.activeSprint);
-    const setActiveTask = sprintStore((state) => state.setActiveSprint);
+    const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 
     const { addNewSprint, updateExistingSprint } = useSprint();
 
@@ -50,7 +50,7 @@ export const ModalSprint: FC<ModalSprintProps> = ({ handleCloseModalSprint}) => 
         } else {
             addNewSprint({ ...formValues, id: crypto.randomUUID() });
         }
-        setActiveTask(null);
+        setActiveSprint(null);
         handleCloseModalSprint();
     };
 

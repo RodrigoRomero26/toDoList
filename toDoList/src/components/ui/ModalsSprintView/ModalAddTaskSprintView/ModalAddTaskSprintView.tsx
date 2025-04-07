@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import { ISprint } from "../../../../types/ISprint";
-import styles from "./ModalAddTask.module.css";
+import styles from "./ModalAddTaskSprintView.module.css";
 import { useSprint } from "../../../../hooks/useSprint";
 import { ITask } from "../../../../types/ITask";
 import { taskStore } from "../../../../store/taskStore";
@@ -17,10 +17,11 @@ const initialState: ITask = {
 	fechaLimite: "",
 };
 
-export const ModalAddTask: FC<ModalAddTaskProps> = ({handleCloseModalAddTask}) => {
+export const ModalAddTaskSprintView: FC<ModalAddTaskProps> = ({handleCloseModalAddTask}) => {
 
 	const activeTask = taskStore((state) => state.activeTask);
 	const activeSprint = sprintStore((state) => state.activeSprint);
+	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 	const {updateExistingSprint} = useSprint()
 	const [formValues, setFormValues] = useState(initialState)
 
@@ -53,6 +54,7 @@ export const ModalAddTask: FC<ModalAddTaskProps> = ({handleCloseModalAddTask}) =
 					),
 				  };;
 				updateExistingSprint(updatedSprint)
+				setActiveSprint(updatedSprint)
 				handleCloseModalAddTask()
 			
 			}else{
@@ -67,6 +69,7 @@ export const ModalAddTask: FC<ModalAddTaskProps> = ({handleCloseModalAddTask}) =
 				tareas: [...activeSprint!.tareas, newTask],
 			};
 			updateExistingSprint(updatedSprint)
+			setActiveSprint(updatedSprint)
 			handleCloseModalAddTask()
 			}
 			

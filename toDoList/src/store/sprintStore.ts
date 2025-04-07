@@ -39,4 +39,6 @@ export const sprintStore = create<ISprintStore>((set) => ({
 			);
 			return { sprints: updatedSprints };
 		}),
-}));
+
+
+	}));
