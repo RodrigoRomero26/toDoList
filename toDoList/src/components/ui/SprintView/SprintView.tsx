@@ -10,8 +10,6 @@ import { ModalAddTaskSprintView } from "../ModalsSprintView/ModalAddTaskSprintVi
 export const SprintView = () => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const activeSprint = sprintStore((state) => state.activeSprint);
-	const activeSprintForRoute = sprintStore(
-		(state) => state.activeSprintForRoute)
 	const [openModalAddTask, setOpenModalAddTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
 
@@ -19,7 +17,7 @@ export const SprintView = () => {
 	const handleOpenModalEditTask = (task: ITask) => {
 		setActiveTask(task);
 		setOpenModalAddTask(true);
-		
+
 	};
 
 	const handleOpenModalViewTask = (task: ITask) => {
@@ -36,10 +34,9 @@ export const SprintView = () => {
 		setOpenViewModalTask(false);
 		setActiveTask(null);
 	}
-	useEffect(() => {}
-, [handleCloseModalAddTask]);
+	useEffect(() => {}, [activeSprint?.tareas]);
 
-	const sprintTasks = activeSprintForRoute?.tareas || [];
+	const sprintTasks = activeSprint?.tareas || [];
 
 	const pendingTasks = sprintTasks.filter(
 		(task) => task.estado === "Pendiente"
@@ -56,7 +53,7 @@ export const SprintView = () => {
 			<div className={styles.sprintViewPrincipalContainer}>
 				<div className={styles.titleAndButtonSprintView}>
 					<div></div>
-					<h2>{activeSprintForRoute?.nombre}</h2>
+					<h2>{activeSprint?.nombre}</h2>
 					<button onClick={()=>setOpenModalAddTask(true)}>Añadir Tarea</button>
 				</div>
 				<div className={styles.columnsSprintView}>

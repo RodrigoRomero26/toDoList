@@ -30,3 +30,4 @@ db.json
 .env.development
 .env.production
 .env.test
+.qodo

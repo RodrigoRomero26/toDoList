@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { ITask } from "../../../types/ITask";
 import styles from "./TaskCardSprint.module.css";
+import { useSprint } from "../../../hooks/useSprint";
+import { useTask } from "../../../hooks/useTask";
+import { sprintStore } from "../../../store/sprintStore";
 
 type TaskCardSprintProps = {
 	task: ITask;
@@ -14,12 +17,29 @@ export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 	handleOpenView,
 }) => {
 
+	const { updateExistingSprint } = useSprint();
+	const { addNewTask } = useTask();
+	const activeSprint = sprintStore((state) => state.activeSprint);
+	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
+
 	const handleEditTask = () => {
 		handleOpenEdit(task);
 	}
 
 	const handleViewTask = () => {
 		handleOpenView(task);}
+
+		const handleBacklogTask = () => {
+			const updatedSprint = {
+				...activeSprint!,
+				tareas: activeSprint!.tareas.filter((t) => {
+					return t.id !== task.id;
+				}),
+			};
+			addNewTask(task);
+			updateExistingSprint(updatedSprint);
+			setActiveSprint(updatedSprint);
+		};
 
 	return (
 		<div className={styles.containerPrincipalTaskCardSprint}>
@@ -35,7 +55,7 @@ export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 			</div>
 			<div className={styles.taskCardSprintActions}>
 				<div>
-					<button>Backlog</button>
+					<button onClick={handleBacklogTask}>Backlog</button>
 				</div>
 				<div className={styles.taskCardSprintActionsButtons}>
 					<button onClick={handleViewTask}>
