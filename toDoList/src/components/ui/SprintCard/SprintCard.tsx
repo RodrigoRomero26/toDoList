@@ -1,8 +1,7 @@
-import { FC } from "react";
+import { FC  } from "react";
 import { ISprint } from "../../../types/ISprint";
 import styles from "./SprintCard.module.css";
 import { useSprint } from "../../../hooks/useSprint";
-import { sprintStore } from "../../../store/sprintStore";
 import { useNavigate } from "react-router-dom";
 
 type SprintCardProps = {
@@ -15,10 +14,7 @@ export const SprintCard: FC<SprintCardProps> = ({
 	handleOpenModalEdit,
 }) => {
 	const { deleteExistingSprint } = useSprint();
-	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
-	const setActiveSprintForRoute = sprintStore(
-		(state) => state.setActiveSprintForRoute
-	);
+
 	const navigate = useNavigate();
 
 	const handleDeleteSprint = () => {
@@ -30,10 +26,10 @@ export const SprintCard: FC<SprintCardProps> = ({
 	};
 
 	const handleViewSprint = () => {
-		setActiveSprintForRoute(sprint);
-		setActiveSprint(sprint);
-		navigate("/sprint" );
+		navigate(`/sprint/${sprint.id}` );
 	};
+
+
 
 	return (
 		<div className={styles.sprintCard}>

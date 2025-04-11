@@ -16,7 +16,6 @@ export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 	handleOpenEdit,
 	handleOpenView,
 }) => {
-
 	const { updateExistingSprint } = useSprint();
 	const { addNewTask } = useTask();
 	const activeSprint = sprintStore((state) => state.activeSprint);
@@ -24,27 +23,29 @@ export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 
 	const handleEditTask = () => {
 		handleOpenEdit(task);
-	}
+	};
 
 	const handleViewTask = () => {
-		handleOpenView(task);}
+		handleOpenView(task);
+	};
 
-		const handleBacklogTask = () => {
-			const updatedSprint = {
-				...activeSprint!,
-				tareas: activeSprint!.tareas.filter((t) => {
-					return t.id !== task.id;
-				}),
-			};
-			addNewTask(task);
-			updateExistingSprint(updatedSprint);
-			setActiveSprint(updatedSprint);
+	const handleBacklogTask = () => {
+		const updatedSprint = {
+			...activeSprint!,
+			tareas: activeSprint!.tareas.filter((t) => {
+				return t.id !== task.id;
+			}),
 		};
+		addNewTask(task);
+		updateExistingSprint(updatedSprint);
+		setActiveSprint(updatedSprint);
+	};
 
 	return (
 		<div className={styles.containerPrincipalTaskCardSprint}>
 			<div className={styles.taskCardSprintData}>
 				<h2>{task.titulo}</h2>
+
 				<p>Fecha Limite: {task.fechaLimite}</p>
 				<p
 					className={`${styles.taskStatus} ${

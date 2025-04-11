@@ -22,10 +22,11 @@ export const ModalAddTask: FC<ModalAddTaskProps> = ({
 	const [selectedSprintId, setSelectedSprintId] = useState<string | null>(null);
 
 	useEffect(() => {
-		if (sprints.length > 0) {
+		if (sprints.length > 0 && selectedSprintId === null) {
 			setSelectedSprintId(sprints[0]?.id || null);
 		}
-	}, [sprints]);
+	}, [sprints, selectedSprintId]);
+	
 
 	const handleUpdateSprint = async () => {
 		if (!selectedSprintId || !activeTask) return;

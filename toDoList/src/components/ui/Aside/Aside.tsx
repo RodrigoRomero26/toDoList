@@ -4,7 +4,7 @@ import styles from "./Aside.module.css";
 import { sprintStore } from "../../../store/sprintStore";
 export const Aside = () => {
 	const navigate = useNavigate();
-  const setActiveSprintForRoute = sprintStore((state) => state.setActiveSprintForRoute);
+  
   const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 	return (
 		<div className={styles.aside}>
@@ -12,7 +12,6 @@ export const Aside = () => {
 				<button
 					onClick={() => {
 						navigate("/");
-            setActiveSprintForRoute(null);
             setActiveSprint(null);
 					}}>
 					Backlog

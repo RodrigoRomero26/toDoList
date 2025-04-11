@@ -6,13 +6,19 @@ import { ITask } from "../../../types/ITask";
 import { taskStore } from "../../../store/taskStore";
 import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
 import { ModalAddTaskSprintView } from "../ModalsSprintView/ModalAddTaskSprintView/ModalAddTaskSprintView";
+import { useParams } from "react-router-dom";
+import { useSprint } from "../../../hooks/useSprint";
 
 export const SprintView = () => {
+	const {id} = useParams()
+	const {getSprintById} = useSprint()
+	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
+
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const activeSprint = sprintStore((state) => state.activeSprint);
 	const [openModalAddTask, setOpenModalAddTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
-
+	
 
 	const handleOpenModalEditTask = (task: ITask) => {
 		setActiveTask(task);
@@ -34,7 +40,23 @@ export const SprintView = () => {
 		setOpenViewModalTask(false);
 		setActiveTask(null);
 	}
-	useEffect(() => {}, [activeSprint?.tareas]);
+	useEffect(() => {
+		const fetchSprint = async () => {
+			try {
+				if (id) {
+					const sprintData = await getSprintById(id); 
+					setActiveSprint(sprintData);
+				} else {
+					console.error("No se encontró el ID del sprint en la URL");
+				}
+			} catch (error) {
+				console.error("Error al obtener el sprint:", error);
+			}
+		};
+		if (id) {
+			fetchSprint();
+		}
+	}, [id]);
 
 	const sprintTasks = activeSprint?.tareas || [];
 

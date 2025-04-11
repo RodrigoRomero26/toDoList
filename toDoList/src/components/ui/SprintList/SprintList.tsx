@@ -5,25 +5,53 @@ import { SprintCard } from "../SprintCard/SprintCard";
 import styles from "./SprintList.module.css";
 import { ISprint } from "../../../types/ISprint";
 import { ModalSprint } from "../ModalSprint/ModalSprint";
+import { useParams } from "react-router-dom";
+import { ModalAddSprint } from "../ModalAddSprint/ModalAddSprint";
 export const SprintList = () => {
 	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 	const { getSprints, sprints } = useSprint();
+	const {id } = useParams()
+	const {getSprintById} = useSprint()
 
-	useEffect(() => {
-		getSprints();
-	}, []);
-
+	
+	const [openModalAddSprint, setOpenModalAddSprint] = useState(false);
 	const [openModalSprint, setOpenModalSprint] = useState(false);
 
 	const handleOpenModalEditSprint = (sprint: ISprint) => {
 		setActiveSprint(sprint);
 		setOpenModalSprint(true);
 	};
+	
 
 	const handleCloseModalSprint = () => {
 		setOpenModalSprint(false);
 		setActiveSprint(null);
 	};
+	
+	const handleCloseModalAddSprint = () => {
+		setOpenModalAddSprint(false);
+		
+	};
+
+	useEffect(() => {
+		getSprints();
+		const fetchSprint = async () => {
+			try {
+				if (id) {
+					const sprintData = await getSprintById(id); 
+					setActiveSprint(sprintData);
+				} else {
+					console.error("No se encontró el ID del sprint en la URL");
+				}
+			} catch (error) {
+				console.error("Error al obtener el sprint:", error);
+			}
+		};
+		if (id) {
+			fetchSprint();
+		}
+	}, [id, handleCloseModalSprint]);
+
 
 	return (
 		<>
@@ -45,13 +73,16 @@ export const SprintList = () => {
 				)}
 			</div>
 			<div className={styles.containerButtonAddSprint}>
-				<button onClick={()=>{setOpenModalSprint(true)}} className={styles.buttonAddSprint}>Agregar Sprint</button>
+				<button onClick={()=>{setOpenModalAddSprint(true)}} className={styles.buttonAddSprint}>Agregar Sprint</button>
 			</div>
 		</div>
+		{openModalAddSprint && (
+			<ModalAddSprint handleCloseModalSprint={handleCloseModalAddSprint} />
+		)}
+		
 		{openModalSprint && (
 			<ModalSprint handleCloseModalSprint={handleCloseModalSprint} />
 		)}
-		
 		</>
 	);
 };
