@@ -84,3 +84,18 @@
 	box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
 		0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
+
+.taskCardSprintActionsWarning button{
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	justify-content: space-between;
+	width: 100%;
+	padding: 6px 10px;
+	background-color: #fa553f;
+	color: white;
+	border-radius: 6px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition-duration: 0.4s;
+}
