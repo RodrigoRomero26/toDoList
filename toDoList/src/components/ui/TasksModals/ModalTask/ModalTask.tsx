@@ -3,6 +3,7 @@ import styles from "./ModalTask.module.css";
 import { taskStore } from "../../../../store/taskStore";
 import { useTask } from "../../../../hooks/useTask";
 import { ITask } from "../../../../types/ITask";
+import Swal from "sweetalert2";
 
 type ModalTaskProps = {
 	handleCloseModalTask: () => void;
@@ -20,6 +21,7 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const { addNewTask, updateExistingTask } = useTask();
 	const [formValues, setFormValues] = useState(initialState);
+	const today = new Date().toISOString().split("T")[0]
 
 	useEffect(() => {
 		if (activeTask) {
@@ -34,17 +36,39 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 	}, []);
 
 	const handleChange = (
-		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		const { name, value } = e.target;
-		setFormValues((prev) => ({ ...prev, [`${name}`]: value }));
-	};
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [`${name}`]: value }));
+  };
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		if (activeTask) {
+			if (formValues.fechaLimite < activeTask.fechaLimite) {
+        Swal.fire({
+          title: "Error",
+          text: "La fecha no puede ser anterior a la fecha actual",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+		setFormValues((prev) => ({
+			...prev,
+			fechaInicio: activeTask!.fechaLimite
+		}));
+        return;
+      }
 			updateExistingTask(formValues);
 		} else {
+			if (formValues.fechaLimite < today) {
+		Swal.fire({
+		  title: "Error",
+		  text: "La fecha no puede ser anterior a la fecha actual",
+		  icon: "error",
+		  confirmButtonText: "Aceptar",
+		})
+		return;
+	}
 			addNewTask({ ...formValues, id: crypto.randomUUID() });
 		}
 		setActiveTask(null);

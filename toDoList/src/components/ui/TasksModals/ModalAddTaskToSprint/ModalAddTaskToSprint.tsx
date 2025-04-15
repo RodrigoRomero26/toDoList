@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./ModalAddTask.module.css";
+import styles from "./ModalAddTaskToSprint.module.css";
 import { taskStore } from "../../../../store/taskStore";
 import { sprintStore } from "../../../../store/sprintStore";
 import { ISprint } from "../../../../types/ISprint";
 import { useSprint } from "../../../../hooks/useSprint";
 import { useTask } from "../../../../hooks/useTask";
 
-type ModalAddTaskProps = {
+type ModalAddTaskToSprintProps = {
 	handleCloseModalAddTask: () => void;
 };
 
-export const ModalAddTask: FC<ModalAddTaskProps> = ({
+export const ModalAddTaskToSprint: FC<ModalAddTaskToSprintProps> = ({
 	handleCloseModalAddTask,
 }) => {
 	const activeTask = taskStore((state) => state.activeTask);

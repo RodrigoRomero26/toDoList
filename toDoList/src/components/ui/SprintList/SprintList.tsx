@@ -4,9 +4,9 @@ import { sprintStore } from "../../../store/sprintStore";
 import { SprintCard } from "../SprintCard/SprintCard";
 import styles from "./SprintList.module.css";
 import { ISprint } from "../../../types/ISprint";
-import { ModalSprint } from "../ModalSprint/ModalSprint";
+import { ModalEditSprint } from "../SprintsModals/ModalEditSprint/ModalEditSprint";
 import { useParams } from "react-router-dom";
-import { ModalAddSprint } from "../ModalAddSprint/ModalAddSprint";
+import { ModalAddSprint } from "../SprintsModals/ModalAddSprint/ModalAddSprint";
 export const SprintList = () => {
 	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 	const { getSprints, sprints } = useSprint();
@@ -81,7 +81,7 @@ export const SprintList = () => {
 		)}
 		
 		{openModalSprint && (
-			<ModalSprint handleCloseModalSprint={handleCloseModalSprint} />
+			<ModalEditSprint handleCloseModalSprint={handleCloseModalSprint} />
 		)}
 		</>
 	);

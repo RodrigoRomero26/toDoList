@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./ModalViewTask.module.css";
-import { taskStore } from "../../../store/taskStore";
+import { taskStore } from "../../../../store/taskStore";
 
 type ModalViewTaskProps = {
 	handleCloseViewModalTask: () => void;

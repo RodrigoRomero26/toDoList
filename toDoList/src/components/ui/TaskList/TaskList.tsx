@@ -4,9 +4,10 @@ import { taskStore } from "../../../store/taskStore";
 import { TaskCard } from "../TaskCard/TaskCard";
 import styles from "./TaskList.module.css";
 import { ITask } from "../../../types/ITask";
-import { ModalTask } from "../ModalsBacklog/ModalTask/ModalTask";
-import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
-import { ModalAddTask } from "../ModalsBacklog/ModalAddTask/ModalAddTask";
+import { ModalTask } from "../TasksModals/ModalTask/ModalTask";
+import { ModalViewTask } from "../TasksModals/ModalViewTask/ModalViewTask";
+import { ModalAddTaskToSprint } from "../TasksModals/ModalAddTaskToSprint/ModalAddTaskToSprint";
+
 export const TaskList = () => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const { getTasks, tasks } = useTask();
@@ -14,6 +15,8 @@ export const TaskList = () => {
 	useEffect(() => {
 		getTasks();
 	}, []);
+
+	
 
 	const [openModalTask, setOpenModalTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
@@ -86,7 +89,7 @@ export const TaskList = () => {
 				<ModalViewTask handleCloseViewModalTask={handleCloseViewModalTask} />
 			)}
 			{openAddTask && (
-				<ModalAddTask handleCloseModalAddTask={handleCloseModalAddTask} />
+				<ModalAddTaskToSprint handleCloseModalAddTask={handleCloseModalAddTask} />
 			)}
 		</>
 	);

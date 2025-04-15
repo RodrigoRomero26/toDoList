@@ -23,7 +23,7 @@
 
   
 .taskCardData h2 {
-    max-width: 50vw; /* o lo que se adapte a tu diseño */
+    max-width: 50vw; 
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
@@ -35,7 +35,7 @@
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	width: 30%;
+	width:30%;
 }
 .taskCardActionsButtons {
 	display: flex;
@@ -43,7 +43,8 @@
 	justify-content: space-around;
 	align-items: center;
 	gap: 0.3rem;
-	width: 30%;
+	width: 100%;
+	
 }
 .taskCardActions button {
 	background-color: #fff;

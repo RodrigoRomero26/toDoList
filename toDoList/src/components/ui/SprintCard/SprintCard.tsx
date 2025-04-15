@@ -35,8 +35,8 @@ export const SprintCard: FC<SprintCardProps> = ({
 		<div className={styles.sprintCard}>
 			<div className={styles.sprintCardData}>
 				<h2>{sprint.nombre}</h2>
-				<p>Fecha Inicio: {sprint.fechaInicio}</p>
-				<p>Fecha cierre: {sprint.fechaCierre}</p>
+				<p>Inicio: {sprint.fechaInicio}</p>
+				<p>Cierre: {sprint.fechaCierre}</p>
 			</div>
 			<div className={styles.sprintCardActions}>
 				<button onClick={handleViewSprint}>

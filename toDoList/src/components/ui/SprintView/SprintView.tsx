@@ -4,8 +4,8 @@ import { TaskCardSprint } from "../TaskCardSprint/TaskCardSprint";
 import styles from "./SprintView.module.css";
 import { ITask } from "../../../types/ITask";
 import { taskStore } from "../../../store/taskStore";
-import { ModalViewTask } from "../ModalViewTask/ModalViewTask";
-import { ModalAddTaskSprintView } from "../ModalsSprintView/ModalAddTaskSprintView/ModalAddTaskSprintView";
+import { ModalViewTask } from "../TasksModals/ModalViewTask/ModalViewTask";
+import { ModalAddTaskSprintView } from "../TasksModals/ModalAddTaskSprintView/ModalAddTaskSprintView";
 import { useParams } from "react-router-dom";
 import { useSprint } from "../../../hooks/useSprint";
 

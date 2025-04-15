@@ -64,19 +64,19 @@ export const TaskCard: FC<TaskCardProps> = ({
 				<p>Estado: {task.estado}</p>
 			</div>
 			<div className={styles.taskCardActions}>
+				
+				
+				<div className={styles.taskCardActionsButtons}>
 				<div>
 					<button onClick={handleAddTask}>
 						<span className="material-symbols-outlined">add</span>
 					</button>
 				</div>
-				<div>
-					{showWarning && (
+				{showWarning && (
 						<div className={styles.taskCardSprintActionsWarning}>
 							{timeWarning()}
 						</div>
 					)}
-				</div>
-				<div className={styles.taskCardActionsButtons}>
 					<button onClick={handleViewTask}>
 						<span className="material-symbols-outlined">visibility</span>
 					</button>

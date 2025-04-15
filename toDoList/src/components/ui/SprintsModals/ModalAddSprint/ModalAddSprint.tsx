@@ -1,8 +1,9 @@
 import { FC, useState } from "react";
 import styles from "./ModalAddSprint.module.css";
 
-import { useSprint } from "../../../hooks/useSprint";
-import { ISprint } from "../../../types/ISprint";
+import { useSprint } from "../../../../hooks/useSprint";
+import { ISprint } from "../../../../types/ISprint";
+import Swal from "sweetalert2";
 
 type ModalAddSprintProps = {
 	handleCloseModalSprint: () => void;
@@ -29,9 +30,21 @@ export const ModalAddSprint: FC<ModalAddSprintProps> = ({
 		setFormValues((prev) => ({ ...prev, [`${name}`]: value }));
 	};
 
+	const today = new Date().toISOString().split("T")[0]
+
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-
+		if (formValues.fechaInicio < today || formValues.fechaCierre < today) {
+			
+			Swal.fire({
+				title: "Error",
+				text: "Las fechas no pueden ser anteriores a la fecha actual",
+				icon: "error",
+				confirmButtonText: "Aceptar",
+			  });
+			return;
+		}
 		addNewSprint({ ...formValues, id: crypto.randomUUID() });
 
 		handleCloseModalSprint();
