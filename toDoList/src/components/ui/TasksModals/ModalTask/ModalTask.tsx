@@ -3,7 +3,7 @@ import styles from "./ModalTask.module.css";
 import { taskStore } from "../../../../store/taskStore";
 import { useTask } from "../../../../hooks/useTask";
 import { ITask } from "../../../../types/ITask";
-import Swal from "sweetalert2";
+import { taskSchema } from "../../../Schemas/TaskSchema";
 
 type ModalTaskProps = {
 	handleCloseModalTask: () => void;
@@ -12,7 +12,7 @@ type ModalTaskProps = {
 const initialState: ITask = {
 	titulo: "",
 	descripcion: "",
-	estado: "",
+	estado: "Pendiente",
 	fechaLimite: "",
 };
 
@@ -21,7 +21,6 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 	const setActiveTask = taskStore((state) => state.setActiveTask);
 	const { addNewTask, updateExistingTask } = useTask();
 	const [formValues, setFormValues] = useState(initialState);
-	const today = new Date().toISOString().split("T")[0]
 
 	useEffect(() => {
 		if (activeTask) {
@@ -35,45 +34,50 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 		}
 	}, []);
 
-	const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [`${name}`]: value }));
-  };
+	const handleChange = async (
+		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const { name, value } = e.target;
+		setFormValues((prev) => ({ ...prev, [`${name}`]: value }));
 
-	const handleSubmit = (e: FormEvent) => {
+		try {
+			await taskSchema.validateAt(name, { ...formValues, [name]: value });
+			setErrors((prev) => {
+				const newErrors = { ...prev };
+				delete newErrors[name];
+				return newErrors;
+			});
+		} catch (err: any) {
+			setErrors((prev) => ({ ...prev, [name]: err.message }));
+		}
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		if (activeTask) {
-			if (formValues.fechaLimite < activeTask.fechaLimite) {
-        Swal.fire({
-          title: "Error",
-          text: "La fecha no puede ser anterior a la fecha actual",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-		setFormValues((prev) => ({
-			...prev,
-			fechaInicio: activeTask!.fechaLimite
-		}));
-        return;
-      }
+			await taskSchema.validate(formValues, { abortEarly: false });
 			updateExistingTask(formValues);
 		} else {
-			if (formValues.fechaLimite < today) {
-		Swal.fire({
-		  title: "Error",
-		  text: "La fecha no puede ser anterior a la fecha actual",
-		  icon: "error",
-		  confirmButtonText: "Aceptar",
-		})
-		return;
-	}
+			await taskSchema.validate(formValues, { abortEarly: false });
 			addNewTask({ ...formValues, id: crypto.randomUUID() });
 		}
 		setActiveTask(null);
 		handleCloseModalTask();
 	};
+
+	const isFormValid = () => {
+		const hasErrors = Object.keys(errors).length > 0;
+		const hasEmptyFields = Object.values(formValues).some(
+			(value) => value.trim() === ""
+		);
+		return !hasErrors && !hasEmptyFields;
+	};
+
+	useEffect(() => {
+		isFormValid();
+	}, [formValues]);
+
+	const [errors, setErrors] = useState<Record<string, string>>({});
 
 	return (
 		<div className={styles.containerPrincipalModalTask}>
@@ -90,6 +94,7 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 							autoComplete="off"
 							name="titulo"
 						/>
+						{errors.titulo && <p className={styles.error}>{errors.titulo}</p>}
 						<textarea
 							name="descripcion"
 							placeholder="Descripcion de la tarea"
@@ -97,6 +102,9 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 							value={formValues.descripcion}
 							onChange={handleChange}
 							autoComplete="off"></textarea>
+						{errors.descripcion && (
+							<p className={styles.error}>{errors.descripcion}</p>
+						)}
 						<input
 							type="date"
 							name="fechaLimite"
@@ -105,29 +113,36 @@ export const ModalTask: FC<ModalTaskProps> = ({ handleCloseModalTask }) => {
 							onChange={handleChange}
 							autoComplete="off"
 						/>
-						<select
-							name="estado"
-							required
-							value={formValues.estado}
-							onChange={(e) =>
-								setFormValues((prev) => ({
-									...prev,
-									estado: e.target.value,
-								}))
-							}
-							autoComplete="off">
-							<option value="" disabled>
-								Selecciona un estado
-							</option>
-							<option value="Pendiente">Pendiente</option>
-							<option value="En proceso">En proceso</option>
-							<option value="Completado">Completado</option>
-						</select>
+						{errors.fechaLimite && (
+							<p className={styles.error}>{errors.fechaLimite}</p>
+						)}
+						{activeTask ? (
+							<select
+								name="estado"
+								required
+								value={formValues.estado}
+								onChange={(e) =>
+									setFormValues((prev) => ({
+										...prev,
+										estado: e.target.value,
+									}))
+								}
+								autoComplete="off">
+								<option value="Pendiente">Pendiente</option>
+								<option value="En proceso">En proceso</option>
+								<option value="Completado">Completado</option>
+							</select>
+						) : null}
 					</div>
 					<div className={styles.containerButtons}>
-						<button onClick={handleCloseModalTask}>Cancelar</button>
-						<button type="submit">
+						<button
+							className={styles.submitbtn}
+							disabled={!isFormValid()}
+							type="submit">
 							{activeTask ? "Editar tarea" : "Crear tarea"}
+						</button>
+						<button className={styles.cancelbtn} onClick={handleCloseModalTask}>
+							Cancelar
 						</button>
 					</div>
 				</form>

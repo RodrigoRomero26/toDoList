@@ -75,8 +75,8 @@ export const ModalAddTaskToSprint: FC<ModalAddTaskToSprintProps> = ({
 				</div>
 
 				<div className={styles.containerButtons}>
-					<button onClick={handleUpdateSprint}>Agregar Tarea</button>
-					<button onClick={handleCloseModalAddTask}>Cancelar</button>
+					<button className={styles.submitbtn}onClick={handleUpdateSprint}>Agregar Tarea</button>
+					<button className={styles.cancelbtn} onClick={handleCloseModalAddTask}>Cancelar</button>
 				</div>
 			</div>
 		</div>
