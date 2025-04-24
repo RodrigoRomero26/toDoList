@@ -11,7 +11,7 @@ import { useSprint } from "../../../hooks/useSprint";
 
 export const SprintView = () => {
 	const {id} = useParams()
-	const {getSprintById} = useSprint()
+	const {getSprintById, updateExistingSprint} = useSprint()
 	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 
 	const setActiveTask = taskStore((state) => state.setActiveTask);
@@ -19,11 +19,35 @@ export const SprintView = () => {
 	const [openModalAddTask, setOpenModalAddTask] = useState(false);
 	const [openViewModalTask, setOpenViewModalTask] = useState(false);
 	
+	const handleChangeStatus = (task: ITask) => {
+		setActiveTask(task);
+		
+		const estados = ["Pendiente", "En proceso", "Completado"];
+		const currentIndex = estados.indexOf(task.estado);
+		const nextEstado = estados[(currentIndex + 1) % estados.length];
+	
+		const updatedTask = {
+			...task,
+			estado: nextEstado,
+		};
+	
+		const updatedSprint = {
+			...activeSprint!,
+			tareas: activeSprint!.tareas.map((t) =>
+				t.id === task.id ? updatedTask : t
+			),
+		};
+	
+		updateExistingSprint(updatedSprint);
+		setActiveSprint(updatedSprint);
+		setActiveTask(null);
+	};
+
+	
 
 	const handleOpenModalEditTask = (task: ITask) => {
 		setActiveTask(task);
 		setOpenModalAddTask(true);
-
 	};
 
 	const handleOpenModalViewTask = (task: ITask) => {
@@ -40,6 +64,8 @@ export const SprintView = () => {
 		setOpenViewModalTask(false);
 		setActiveTask(null);
 	}
+
+	
 	useEffect(() => {
 		const fetchSprint = async () => {
 			try {
@@ -87,6 +113,7 @@ export const SprintView = () => {
 								task={task}
 								handleOpenEdit={handleOpenModalEditTask}
 								handleOpenView={handleOpenModalViewTask}
+								handleStatus={handleChangeStatus}
 							/>
 						))}
 					</div>
@@ -99,6 +126,7 @@ export const SprintView = () => {
 								task={task}
 								handleOpenEdit={handleOpenModalEditTask}
 								handleOpenView={handleOpenModalViewTask}
+								handleStatus={handleChangeStatus}
 							/>
 						))}
 					</div>
@@ -111,6 +139,7 @@ export const SprintView = () => {
 								task={task}
 								handleOpenEdit={handleOpenModalEditTask}
 								handleOpenView={handleOpenModalViewTask}
+								handleStatus={handleChangeStatus}
 							/>
 						))}
 					</div>

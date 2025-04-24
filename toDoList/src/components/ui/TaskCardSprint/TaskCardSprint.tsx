@@ -5,66 +5,64 @@ import { useSprint } from "../../../hooks/useSprint";
 import { useTask } from "../../../hooks/useTask";
 import { sprintStore } from "../../../store/sprintStore";
 import Tooltip from "../Tooltip/Tooltip";
+import { useParams } from "react-router-dom";
 
 type TaskCardSprintProps = {
 	task: ITask;
 	handleOpenView: (task: ITask) => void;
 	handleOpenEdit: (task: ITask) => void;
+	handleStatus: (task: ITask) => void;
 };
 
 export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 	task,
 	handleOpenEdit,
 	handleOpenView,
+	handleStatus,
+	
 }) => {
 	const { updateExistingSprint } = useSprint();
 	const { addNewTask } = useTask();
 	const activeSprint = sprintStore((state) => state.activeSprint);
 	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
-	const actualTime = new Date().getTime();
-	const taskTime = new Date(task.fechaLimite).getTime();
-	const taskTimeLimit = taskTime - actualTime;
 
-	const dayMs = 1000 * 60 * 60 * 24;
-	const missingDays = Math.floor(taskTimeLimit / dayMs);
+	const handleChangeStatusTask = () => {
+		handleStatus(task);
+	}
 
-	const showWarning = missingDays <= 3 && task.estado !== "Completado";
 	const handleEditTask = () => {
 		handleOpenEdit(task);
 	};
 
 	const handleViewTask = () => {
 		handleOpenView(task);
-		console.log(actualTime, taskTime, taskTimeLimit);
 	};
 
 	const handleBacklogTask = () => {
 		const updatedSprint = {
 			...activeSprint!,
-			tareas: activeSprint!.tareas.filter((t) => {
-				return t.id !== task.id;
-			}),
+			tareas: activeSprint!.tareas.filter((t) => t.id !== task.id),
 		};
 		addNewTask(task);
 		updateExistingSprint(updatedSprint);
 		setActiveSprint(updatedSprint);
 	};
 
-	const timeWarning = () => {
-		return (
-			<Tooltip text="Tarea proxima a vencer">
-				<button>
-					<span className="material-symbols-outlined">error</span>
-				</button>
-			</Tooltip>
-		);
-	};
+	
+
+	const actualTime = new Date().getTime();
+	const taskTime = new Date(task.fechaLimite).getTime();
+	const missingDays = Math.ceil(
+		(taskTime - actualTime) / (1000 * 60 * 60 * 24)
+	);
+	const showWarning = missingDays < 3 && task.estado !== "Completado";
+
 	return (
 		<div className={styles.containerPrincipalTaskCardSprint}>
 			<div className={styles.taskCardSprintData}>
 				<h2>{task.titulo}</h2>
 
-				<p>Fecha Limite: {task.fechaLimite}</p>
+				<p>Fecha Límite: {task.fechaLimite}</p>
 				<p
 					className={`${styles.taskStatus} ${
 						styles[task.estado.toLowerCase().replace(/\s+/g, "")]
@@ -73,11 +71,21 @@ export const TaskCardSprint: FC<TaskCardSprintProps> = ({
 				</p>
 			</div>
 			<div className={styles.taskCardSprintActions}>
-				<div>
+				<div className={styles.taskCardSprintActionsButtons}>
 					<button onClick={handleBacklogTask}>Backlog</button>
+					<button onClick={handleChangeStatusTask}>
+						<span className="material-symbols-outlined">send</span>
+					</button>
 				</div>
+
 				{showWarning && (
-					<div className={styles.taskCardSprintActionsWarning}>{timeWarning()}</div>
+					<div className={styles.taskCardSprintActionsWarning}>
+						<Tooltip text="Tarea próxima a vencer">
+							<button>
+								<span className="material-symbols-outlined">error</span>
+							</button>
+						</Tooltip>
+					</div>
 				)}
 
 				<div className={styles.taskCardSprintActionsButtons}>

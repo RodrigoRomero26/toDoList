@@ -10,10 +10,9 @@ import { ModalAddSprint } from "../SprintsModals/ModalAddSprint/ModalAddSprint";
 export const SprintList = () => {
 	const setActiveSprint = sprintStore((state) => state.setActiveSprint);
 	const { getSprints, sprints } = useSprint();
-	const {id } = useParams()
-	const {getSprintById} = useSprint()
+	const { id } = useParams();
+	const { getSprintById } = useSprint();
 
-	
 	const [openModalAddSprint, setOpenModalAddSprint] = useState(false);
 	const [openModalSprint, setOpenModalSprint] = useState(false);
 
@@ -21,68 +20,71 @@ export const SprintList = () => {
 		setActiveSprint(sprint);
 		setOpenModalSprint(true);
 	};
-	
 
 	const handleCloseModalSprint = () => {
 		setOpenModalSprint(false);
 		setActiveSprint(null);
 	};
-	
+
 	const handleCloseModalAddSprint = () => {
 		setOpenModalAddSprint(false);
-		
 	};
 
 	useEffect(() => {
 		getSprints();
+	}, []);
+
+	useEffect(() => {
+		if (!id) return;
+
 		const fetchSprint = async () => {
 			try {
-				if (id) {
-					const sprintData = await getSprintById(id); 
-					setActiveSprint(sprintData);
-				} else {
-					console.error("No se encontró el ID del sprint en la URL");
-				}
+				const sprintData = await getSprintById(id);
+				if (sprintData) setActiveSprint(sprintData);
 			} catch (error) {
 				console.error("Error al obtener el sprint:", error);
 			}
 		};
-		if (id) {
-			fetchSprint();
-		}
-	}, [id, handleCloseModalSprint]);
 
+		fetchSprint();
+	}, [id, openModalSprint]);
 
 	return (
 		<>
-		<div className={styles.containerPrincipalListSprints}>
-			<div className={styles.containerTitleListSprints}>
-				<h1>Sprints</h1>
+			<div className={styles.containerPrincipalListSprints}>
+				<div className={styles.containerTitleListSprints}>
+					<h1>Sprints</h1>
+				</div>
+				<div className={styles.containerSprints}>
+					{sprints.length > 0 ? (
+						sprints.map((el) => (
+							<SprintCard
+								key={el.id}
+								handleOpenModalEdit={handleOpenModalEditSprint}
+								sprint={el}
+							/>
+						))
+					) : (
+						<p>No hay sprints</p>
+					)}
+				</div>
+				<div className={styles.containerButtonAddSprint}>
+					<button
+						onClick={() => {
+							setOpenModalAddSprint(true);
+						}}
+						className={styles.buttonAddSprint}>
+						Agregar Sprint
+					</button>
+				</div>
 			</div>
-			<div className={styles.containerSprints}>
-				{sprints.length > 0 ? (
-					sprints.map((el) => (
-						<SprintCard
-							key={el.id}
-							handleOpenModalEdit={handleOpenModalEditSprint}
-							sprint={el}
-						/>
-					))
-				) : (
-					<p>No hay sprints</p>
-				)}
-			</div>
-			<div className={styles.containerButtonAddSprint}>
-				<button onClick={()=>{setOpenModalAddSprint(true)}} className={styles.buttonAddSprint}>Agregar Sprint</button>
-			</div>
-		</div>
-		{openModalAddSprint && (
-			<ModalAddSprint handleCloseModalSprint={handleCloseModalAddSprint} />
-		)}
-		
-		{openModalSprint && (
-			<ModalEditSprint handleCloseModalSprint={handleCloseModalSprint} />
-		)}
+			{openModalAddSprint && (
+				<ModalAddSprint handleCloseModalSprint={handleCloseModalAddSprint} />
+			)}
+
+			{openModalSprint && (
+				<ModalEditSprint handleCloseModalSprint={handleCloseModalSprint} />
+			)}
 		</>
 	);
 };

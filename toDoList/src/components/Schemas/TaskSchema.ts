@@ -13,6 +13,7 @@ export const taskSchema = Yup.object().shape({
 
 	fechaLimite: Yup.date()
 		.required("La fecha límite es obligatoria")
+		.typeError("La fecha límite no es válida")
 		.test("is-future-date", "La fecha no puede ser anterior a hoy", (value) => {
 			if (!value) return false;
 			const today = new Date();

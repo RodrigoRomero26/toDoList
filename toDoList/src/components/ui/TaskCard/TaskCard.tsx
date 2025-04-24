@@ -19,26 +19,6 @@ export const TaskCard: FC<TaskCardProps> = ({
 }) => {
 	const { deleteExistingTask } = useTask();
 
-	const actualTime = new Date().getTime();
-	const taskTime = new Date(task.fechaLimite).getTime();
-	const taskTimeLimit = taskTime - actualTime;
-
-	const dayMs = 1000 * 60 * 60 * 24;
-	const missingDays = Math.ceil(taskTimeLimit / dayMs);
-
-
-	const showWarning = missingDays <= 3 && task.estado !== "Completado";
-
-	const timeWarning = () => {
-		return (
-			<Tooltip text="Tarea proxima a vencer">
-				<button>
-					<span className="material-symbols-outlined">error</span>
-				</button>
-			</Tooltip>
-		);
-	};
-
 	const handleDeleteTask = () => {
 		deleteExistingTask(task.id!);
 	};
@@ -54,6 +34,13 @@ export const TaskCard: FC<TaskCardProps> = ({
 	const handleAddTask = () => {
 		handleOpenAddTask(task);
 	};
+	
+	const actualTime = new Date().getTime();
+	const taskTime = new Date(task.fechaLimite).getTime();
+	const missingDays = Math.ceil(
+		(taskTime - actualTime) / (1000 * 60 * 60 * 24)
+	);
+	const showWarning = missingDays < 3 && task.estado !== "Completado";
 
 	return (
 		<div className={styles.containerPrincipaltaskCard}>
@@ -64,17 +51,19 @@ export const TaskCard: FC<TaskCardProps> = ({
 				<p>Estado: {task.estado}</p>
 			</div>
 			<div className={styles.taskCardActions}>
-				
-				
 				<div className={styles.taskCardActionsButtons}>
-				<div>
-					<button onClick={handleAddTask}>
-						<span className="material-symbols-outlined">add</span>
-					</button>
-				</div>
-				{showWarning && (
+					<div>
+						<button onClick={handleAddTask}>
+							<span className="material-symbols-outlined">add</span>
+						</button>
+					</div>
+					{showWarning && (
 						<div className={styles.taskCardSprintActionsWarning}>
-							{timeWarning()}
+							<Tooltip text="Tarea próxima a vencer">
+								<button>
+									<span className="material-symbols-outlined">error</span>
+								</button>
+							</Tooltip>
 						</div>
 					)}
 					<button onClick={handleViewTask}>
