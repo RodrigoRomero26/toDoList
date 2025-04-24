@@ -5,7 +5,6 @@ import { useSprint } from "../../../../hooks/useSprint";
 import { ITask } from "../../../../types/ITask";
 import { taskStore } from "../../../../store/taskStore";
 import { sprintStore } from "../../../../store/sprintStore";
-import * as Yup from "yup";
 import { taskSchema } from "../../../Schemas/TaskSchema";
 type ModalAddTaskProps = {
 	handleCloseModalAddTask: () => void;
@@ -107,37 +106,44 @@ export const ModalAddTaskSprintView: FC<ModalAddTaskProps> = ({
 				<h2>{activeTask ? "Editar tarea" : "Crear tarea"}</h2>
 				<form onSubmit={handleSubmit} className={styles.containerForm}>
 					<div className={styles.containerInput}>
-						<input
-							type="text"
-							placeholder="Nombre de la tarea"
-							required
-							value={formValues.titulo}
-							onChange={handleChange}
-							autoComplete="off"
-							name="titulo"
-						/>
-						{errors.titulo && <p className={styles.error}>{errors.titulo}</p>}
-						<textarea
-							name="descripcion"
-							placeholder="Descripcion de la tarea"
-							required
-							value={formValues.descripcion}
-							onChange={handleChange}
-							autoComplete="off"></textarea>
+						<div className={styles.inputContainer}>
+							<input
+								type="text"
+								placeholder="Nombre de la tarea"
+								required
+								value={formValues.titulo}
+								onChange={handleChange}
+								autoComplete="off"
+								name="titulo"
+							/>
+							{errors.titulo && <p className={styles.error}>{errors.titulo}</p>}
+						</div>
+						<div className={styles.inputContainer}>
+							<textarea
+								name="descripcion"
+								placeholder="Descripcion de la tarea"
+								required
+								value={formValues.descripcion}
+								onChange={handleChange}
+								autoComplete="off"></textarea>
 							{errors.descripcion && (
-							<p className={styles.error}>{errors.descripcion}</p>
-						)}
-						<input
-							type="date"
-							name="fechaLimite"
-							required
-							value={formValues.fechaLimite}
-							onChange={handleChange}
-							autoComplete="off"
-						/>
-						{errors.fechaLimite && (
-							<p className={styles.error}>{errors.fechaLimite}</p>
-						)}
+								<p className={styles.error}>{errors.descripcion}</p>
+							)}
+						</div>
+						<div className={styles.inputContainer}>
+							<label htmlFor="fechaLimite">Fecha de Cierre</label>
+							<input
+								type="date"
+								name="fechaLimite"
+								required
+								value={formValues.fechaLimite}
+								onChange={handleChange}
+								autoComplete="off"
+							/>
+							{errors.fechaLimite && (
+								<p className={styles.error}>{errors.fechaLimite}</p>
+							)}
+						</div>
 						{activeTask ? (
 							<select
 								name="estado"
@@ -157,11 +163,17 @@ export const ModalAddTaskSprintView: FC<ModalAddTaskProps> = ({
 						) : null}
 					</div>
 					<div className={styles.containerButtons}>
-						
-						<button className={styles.submitbtn} disabled={!isFormValid()} type="submit">
+						<button
+							className={styles.cancelbtn}
+							onClick={handleCloseModalAddTask}>
+							Cancelar
+						</button>
+						<button
+							className={styles.submitbtn}
+							disabled={!isFormValid()}
+							type="submit">
 							{activeTask ? "Editar tarea" : "Crear tarea"}
 						</button>
-						<button className={styles.cancelbtn} onClick={handleCloseModalAddTask}>Cancelar</button>
 					</div>
 				</form>
 			</div>

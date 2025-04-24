@@ -26,7 +26,6 @@ export const ModalAddTaskToSprint: FC<ModalAddTaskToSprintProps> = ({
 			setSelectedSprintId(sprints[0]?.id || null);
 		}
 	}, [sprints, selectedSprintId]);
-	
 
 	const handleUpdateSprint = async () => {
 		if (!selectedSprintId || !activeTask) return;
@@ -63,20 +62,30 @@ export const ModalAddTaskToSprint: FC<ModalAddTaskToSprintProps> = ({
 					</div>
 
 					<label>Seleccionar Sprint:</label>
-					<select
-						value={selectedSprintId || ""}
-						onChange={(e) => setSelectedSprintId(e.target.value)}>
-						{sprints.map((sprint) => (
-							<option key={sprint.id} value={sprint.id}>
-								{sprint.nombre}
-							</option>
-						))}
-					</select>
+					{sprints.length > 0 ? (
+						<select
+							value={selectedSprintId || ""}
+							onChange={(e) => setSelectedSprintId(e.target.value)}>
+							{sprints.map((sprint) => (
+								<option key={sprint.id} value={sprint.id}>
+									{sprint.nombre}
+								</option>
+							))}
+						</select>
+					) : (
+						<p>No hay sprints disponibles.</p>
+					)}
 				</div>
 
 				<div className={styles.containerButtons}>
-					<button className={styles.submitbtn}onClick={handleUpdateSprint}>Agregar Tarea</button>
-					<button className={styles.cancelbtn} onClick={handleCloseModalAddTask}>Cancelar</button>
+					<button
+						className={styles.cancelbtn}
+						onClick={handleCloseModalAddTask}>
+						Cancelar
+					</button>
+					<button className={styles.submitbtn} onClick={handleUpdateSprint}>
+						Agregar Tarea
+					</button>
 				</div>
 			</div>
 		</div>

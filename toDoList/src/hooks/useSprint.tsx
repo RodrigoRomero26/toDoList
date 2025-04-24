@@ -80,7 +80,7 @@ export const useSprint = () => {
 	};
 
 	const getSprintById = async (id: string) => {
-        const sprintsGetByID = await getSprintsController();
+		const sprintsGetByID = await getSprintsController();
 		const sprint = sprintsGetByID.find((sprint) => sprint.id === id);
 		if (!sprint) {
 			console.error("Sprint not found:", id);
@@ -89,12 +89,14 @@ export const useSprint = () => {
 		return sprint;
 	};
 
+	
+
 	return {
 		sprints,
 		getSprints,
 		addNewSprint,
 		updateExistingSprint,
 		deleteExistingSprint,
-        getSprintById,
+		getSprintById,
 	};
 };

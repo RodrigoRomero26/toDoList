@@ -61,8 +61,7 @@ export const useTask = () => {
 			confirmButtonColor: "#3085d6",
 			cancelButtonColor: "#d33",
 			cancelButtonText: "Cancelar",
-			confirmButtonText: "Eliminar!"
-			
+			confirmButtonText: "Eliminar!",
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				if (previousTask) {
@@ -96,12 +95,15 @@ export const useTask = () => {
 		}
 	};
 
+
+
 	return {
 		tasks,
 		getTasks,
 		addNewTask,
 		updateExistingTask,
 		deleteExistingTask,
-		deleteTaskWithoutConfirmation
+		deleteTaskWithoutConfirmation,
+		
 	};
 };
